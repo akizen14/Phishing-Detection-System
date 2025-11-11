@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phishing Detection System — Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 700px; margin: 0 auto; }
+    
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 24px 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 24px;
+    }
+    
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a202c;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .subtitle {
+      color: #718096;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 14px;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      width: 100%;
+      margin-top: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+    
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .result {
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 24px;
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .phish {
+      background: #fee;
+      color: #c53030;
+      border: 2px solid #fc8181;
+    }
+    
+    .legit {
+      background: #f0fff4;
+      color: #22543d;
+      border: 2px solid #68d391;
+    }
+    
+    .suspicious {
+      background: #fffaf0;
+      color: #c05621;
+      border: 2px solid #f6ad55;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-phishtank {
+      background: #667eea;
+      color: white;
+    }
+    
+    .badge-high {
+      background: #48bb78;
+      color: white;
+    }
+    
+    .meta {
+      font-size: 13px;
+      color: #4a5568;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+    
+    .meta strong {
+      color: #2d3748;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    
+    .stat-box {
+      background: #f7fafc;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-box {
+      background: #edf2f7;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    
+    .info-box strong {
+      color: #2d3748;
+    }
+    
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    footer {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      margin-top: 32px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+        </svg>
+        Phishing Detection System
+      </h1>
+      <div class="subtitle">Signature-based URL verification powered by PhishTank</div>
+    </header>
+
+    <div class="card">
+      <label for="url">Enter URL to Check</label>
+      <input id="url" type="text" placeholder="https://example.com" />
+      <button id="check">
+        <span id="btnText">Check URL</span>
+      </button>
+
+      <div id="resultArea" style="display:none">
+        <div id="resultCard" class="result"></div>
+        <div id="resultMeta" class="meta"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <strong style="font-size: 16px; color: #2d3748;">System Statistics</strong>
+      <div class="stats" id="stats">
+        <div class="stat-box">
+          <div class="stat-value" id="phishtankLookups">-</div>
+          <div class="stat-label">PhishTank Lookups</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="phishtankHits">-</div>
+          <div class="stat-label">Phishing Detected</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="cacheHits">-</div>
+          <div class="stat-label">Cache Hits</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="info-box">
+        <strong>How It Works</strong><br><br>
+        This system uses <strong>PhishTank's verified phishing database</strong> to instantly identify known phishing URLs. 
+        When you check a URL, it's compared against thousands of verified phishing sites for immediate results.
+        <br><br>
+        <strong>Detection Sources:</strong>
+        <ul style="margin: 8px 0; padding-left: 20px;">
+          <li><strong>PhishTank Database</strong> - Instant verification against known threats</li>
+          <li><strong>High Confidence</strong> - Results from community-verified phishing reports</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      Powered by PhishTank & AI • Running on http://localhost:8000
+    </footer>
+  </div>
+
+  <script>
+    const urlInput = document.getElementById('url');
+    const checkBtn = document.getElementById('check');
+    const btnText = document.getElementById('btnText');
+    const resultArea = document.getElementById('resultArea');
+    const resultCard = document.getElementById('resultCard');
+    const resultMeta = document.getElementById('resultMeta');
+
+    function showResult(data) {
+      resultArea.style.display = 'block';
+      const cls = data.classification || 'unknown';
+      const source = data.source || 'unknown';
+      const confidence = data.confidence || 'medium';
+      
+      // Determine result class
+      let resultClass = 'legit';
+      let icon = '✓';
+      let message = 'Safe';
+      
+      if (cls === 'phish') {
+        resultClass = 'phish';
+        icon = '!';
+        message = 'PHISHING DETECTED';
+      } else if (cls === 'suspicious') {
+        resultClass = 'suspicious';
+        icon = '!';
+        message = 'SUSPICIOUS';
+      } else if (cls === 'legit') {
+        icon = '✓';
+        message = 'SAFE';
+      }
+      
+      resultCard.className = 'result ' + resultClass;
+      resultCard.innerHTML = `
+        <span style="font-size: 24px;">${icon}</span>
+        <div style="flex: 1;">
+          <div>${message}</div>
+          <div style="font-size: 13px; font-weight: normal; margin-top: 4px;">
+            <span class="badge ${source === 'phishtank' ? 'badge-phishtank' : 'badge-high'}">
+              ${source === 'phishtank' ? 'PhishTank' : source.toUpperCase()}
+            </span>
+            <span class="badge badge-high">${confidence.toUpperCase()} CONFIDENCE</span>
+          </div>
+        </div>
+      `;
+      
+      // Build metadata
+      let metaHtml = '';
+      if (data.phish_id) {
+        metaHtml += `<strong>PhishTank ID:</strong> ${data.phish_id}<br>`;
+      }
+      if (data.detail_page) {
+        metaHtml += `<strong>Details:</strong> <a href="${data.detail_page}" target="_blank" style="color: #667eea;">View on PhishTank</a><br>`;
+      }
+      if (data.submitted_at) {
+        metaHtml += `<strong>Reported:</strong> ${new Date(data.submitted_at).toLocaleDateString()}<br>`;
+      }
+      if (data.error) {
+        metaHtml += `<strong>Note:</strong> ${data.error}`;
+      }
+      
+      resultMeta.innerHTML = metaHtml || '<em>No additional information available</em>';
+      
+      // Refresh metrics after detection
+      fetchMetrics();
+    }
+
+    async function fetchMetrics() {
+      try {
+        const res = await fetch('/metrics');
+        const data = await res.json();
+        
+        if (data.phishtank) {
+          document.getElementById('phishtankLookups').textContent = data.phishtank.lookup_count || 0;
+          document.getElementById('phishtankHits').textContent = data.phishtank.hits || 0;
+          document.getElementById('cacheHits').textContent = data.phishtank.cache_hits || 0;
+        }
+      } catch(e) {
+        console.error('Error fetching metrics:', e);
+      }
+    }
+
+    checkBtn.addEventListener('click', async () => {
+      const u = urlInput.value.trim();
+      if (!u) {
+        alert('Please enter a URL (include http:// or https://)');
+        return;
+      }
+      
+      if (!u.startsWith('http://') && !u.startsWith('https://')) {
+        alert('URL must start with http:// or https://');
+        return;
+      }
+      
+      checkBtn.disabled = true;
+      btnText.innerHTML = '<span class="spinner"></span> Checking...';
+      resultArea.style.display = 'none';
+      
+      try {
+        const res = await fetch(`/detect?url=${encodeURIComponent(u)}`);
+        const data = await res.json();
+        showResult(data);
+      } catch(e) {
+        alert('Error: ' + e.message);
+      } finally {
+        checkBtn.disabled = false;
+        btnText.textContent = 'Check URL';
+      }
+    });
+    
+    // Allow Enter key to submit
+    urlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        checkBtn.click();
+      }
+    });
+
+    // Load initial metrics
+    fetchMetrics();
+    
+    // Refresh metrics every 10 seconds
+    setInterval(fetchMetrics, 10000);
+  </script>
+</body>
+</html>

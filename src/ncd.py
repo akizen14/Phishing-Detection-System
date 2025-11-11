@@ -1,40 +1,46 @@
-# ncd.py
-# LZMA compression helpers and NCD computation with simple caching for compressed sizes.
+"""
+Normalized Compression Distance (NCD) computation using LZMA compression.
 
+NCD measures similarity between two byte sequences by comparing their compressed sizes.
+Lower NCD values indicate higher similarity.
+"""
 import lzma
-from typing import Dict
+from functools import lru_cache
 
 
-def compress_size(data: bytes) -> int:
+@lru_cache(maxsize=10000)
+def C(x: bytes) -> int:
     """
-    Return compressed size using LZMA.
+    Compute compressed size of bytes using LZMA compression.
+    Results are cached for performance.
+    
+    Args:
+        x: Bytes to compress
+        
+    Returns:
+        Compressed size in bytes
     """
-    if not isinstance(data, (bytes, bytearray)):
-        data = str(data).encode("utf-8")
-    return len(lzma.compress(data))
+    return len(lzma.compress(x))
 
 
-class NCDCache:
+def ncd(x: bytes, y: bytes) -> float:
     """
-    Simple in-memory cache for compressed sizes to avoid recompressing identical prototypes.
-    Key is bytes object (hashed via id) or explicit string keys.
+    Compute Normalized Compression Distance between two byte sequences.
+    
+    NCD(x,y) = (C(xy) - min(C(x), C(y))) / max(C(x), C(y))
+    
+    Where:
+    - C(x) is the compressed size of x
+    - C(xy) is the compressed size of concatenated x and y
+    
+    Args:
+        x: First byte sequence
+        y: Second byte sequence
+        
+    Returns:
+        NCD value between 0 and 1+ (lower = more similar)
     """
-    def __init__(self):
-        self._csize_cache: Dict[bytes, int] = {}
-
-    def csize(self, data: bytes) -> int:
-        # bytes are hashed by their value: use small key to avoid big memory overhead
-        key = data  # bytes are hashable
-        if key in self._csize_cache:
-            return self._csize_cache[key]
-        c = compress_size(data)
-        self._csize_cache[key] = c
-        return c
-
-    def ncd(self, x: bytes, y: bytes, cx: int = None, cy: int = None) -> float:
-        if cx is None:
-            cx = self.csize(x)
-        if cy is None:
-            cy = self.csize(y)
-        cxy = compress_size(x + y)
-        return (cxy - min(cx, cy)) / max(cx, cy)
+    cx = C(x)
+    cy = C(y)
+    cxy = C(x + y)
+    return (cxy - min(cx, cy)) / max(cx, cy)

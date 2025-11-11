@@ -1,18 +1,38 @@
-import os
+"""
+Web page rendering using Selenium and Chrome WebDriver.
+"""
 import time
+from typing import Optional
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
+from src.config import CHROMEDRIVER_PATH, DEFAULT_WAIT_SECONDS, DEFAULT_HEADLESS
 
-def render_page_source(url: str, wait_seconds: int = 2, headless: bool = True, chrome_path: str = None):
+
+def render_page_source(
+    url: str, 
+    wait_seconds: int = DEFAULT_WAIT_SECONDS, 
+    headless: bool = DEFAULT_HEADLESS, 
+    chrome_path: Optional[str] = None
+) -> Optional[str]:
     """
-    Renders a webpage and returns its HTML source.
+    Render a webpage and return its HTML source using Selenium.
+    
+    Args:
+        url: URL to render
+        wait_seconds: Seconds to wait for page load
+        headless: Run browser in headless mode
+        chrome_path: Override path to ChromeDriver executable
+        
+    Returns:
+        HTML source code or None if rendering fails
     """
     try:
-        chrome_driver_path = os.environ.get("CHROMEDRIVER_PATH", chrome_path)
+        chrome_driver_path = chrome_path or CHROMEDRIVER_PATH
         if not chrome_driver_path:
-            raise ValueError("CHROMEDRIVER_PATH not set or invalid.")
+            raise ValueError("CHROMEDRIVER_PATH not set. Set it in .env or pass chrome_path parameter.")
 
         chrome_options = Options()
         if headless:

@@ -1,0 +1,97 @@
+[
+  {
+    "dom": "samples\\1761855047_f5c5081dcca4.dom",
+    "meta": "samples\\1761855047_f5c5081dcca4.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855048_ace007ab8cf1.dom",
+    "meta": "samples\\1761855048_ace007ab8cf1.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855053_55da7528f227.dom",
+    "meta": "samples\\1761855053_55da7528f227.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855053_5eae66f1bcac.dom",
+    "meta": "samples\\1761855053_5eae66f1bcac.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855055_689857373a3c.dom",
+    "meta": "samples\\1761855055_689857373a3c.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855066_31fba89b69e2.dom",
+    "meta": "samples\\1761855066_31fba89b69e2.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855066_c00990337130.dom",
+    "meta": "samples\\1761855066_c00990337130.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855067_7097fc0c8e2d.dom",
+    "meta": "samples\\1761855067_7097fc0c8e2d.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855073_2aea25b78b59.dom",
+    "meta": "samples\\1761855073_2aea25b78b59.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855074_9fd3c2cb5928.dom",
+    "meta": "samples\\1761855074_9fd3c2cb5928.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855076_2cf4e5a83caa.dom",
+    "meta": "samples\\1761855076_2cf4e5a83caa.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855081_2581ed56ca68.dom",
+    "meta": "samples\\1761855081_2581ed56ca68.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855082_89365ec9b68d.dom",
+    "meta": "samples\\1761855082_89365ec9b68d.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855084_06a6735393f8.dom",
+    "meta": "samples\\1761855084_06a6735393f8.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855088_ae262b3b8066.dom",
+    "meta": "samples\\1761855088_ae262b3b8066.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855091_b55898415c6d.dom",
+    "meta": "samples\\1761855091_b55898415c6d.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855092_54d01dfb1506.dom",
+    "meta": "samples\\1761855092_54d01dfb1506.meta.json",
+    "label": "phish"
+  },
+  {
+    "dom": "samples\\1761855095_8bd7e5d14dd6.dom",
+    "meta": "samples\\1761855095_8bd7e5d14dd6.meta.json",
+    "label": "legit"
+  },
+  {
+    "dom": "samples\\1761855096_2d058002a083.dom",
+    "meta": "samples\\1761855096_2d058002a083.meta.json",
+    "label": "legit"
+  }
+]

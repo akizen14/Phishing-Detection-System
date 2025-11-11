@@ -1,3 +1,6 @@
+"""
+HTML sanitization functions for DOM extraction.
+"""
 from bs4 import BeautifulSoup
 
 
