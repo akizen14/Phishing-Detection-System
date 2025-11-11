@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Explainability</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .result { background: #f0f0f0; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Explainability Test Page</h1>
+    <button onclick="testAPI()">Test API with novobarnco-pt.cloud</button>
+    <div id="result" class="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Loading...</p>';
+            
+            try {
+                const response = await fetch('/detect?url=https://novobarnco-pt.cloud/');
+                const data = await response.json();
+                
+                console.log('Full API Response:', data);
+                
+                let html = '<h2>API Response:</h2>';
+                html += '<p><strong>Classification:</strong> ' + data.classification + '</p>';
+                html += '<p><strong>Source:</strong> ' + data.source + '</p>';
+                
+                if (data.reason) {
+                    html += '<div style="background: #e6f2ff; padding: 15px; margin: 10px 0; border-left: 4px solid #0066cc;">';
+                    html += '<h3 style="margin-top: 0; color: #0066cc;">Explanation:</h3>';
+                    html += '<p>' + data.reason + '</p>';
+                    html += '</div>';
+                } else {
+                    html += '<p style="color: red;"><strong>NO REASON FIELD FOUND!</strong></p>';
+                }
+                
+                if (data.detection_mode) {
+                    html += '<p><strong>Detection Mode:</strong> ' + data.detection_mode + '</p>';
+                }
+                
+                if (data.feedback_url) {
+                    html += '<p><strong>Feedback URL:</strong> ' + data.feedback_url + '</p>';
+                }
+                
+                html += '<hr><h3>Raw JSON:</h3>';
+                html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

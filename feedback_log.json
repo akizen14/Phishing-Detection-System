@@ -1,0 +1,34 @@
+[
+  {
+    "id": "d14dada3-0d57-49df-bb49-617d76537267",
+    "url": "https://novobarnco-pt.cloud/",
+    "verdict": "phish-cluster-1",
+    "user_feedback": "yes",
+    "timestamp": "2025-11-12T00:14:13.913497",
+    "detection_timestamp": "2025-11-12T00:14:13.835348"
+  },
+  {
+    "id": "81d4fa63-83f9-47e0-a67a-8b11af643457",
+    "url": "https://www.wikipedia.org",
+    "verdict": "legit",
+    "user_feedback": "yes",
+    "timestamp": "2025-11-12T00:14:19.836321",
+    "detection_timestamp": "2025-11-12T00:14:19.812823"
+  },
+  {
+    "id": "183d4f16-ea42-4b07-8270-4c449a076f8b",
+    "url": "https://novobarnco-pt.cloud/",
+    "verdict": "phish-cluster-1",
+    "user_feedback": "yes",
+    "timestamp": "2025-11-12T00:16:42.553772",
+    "detection_timestamp": "2025-11-12T00:16:42.529592"
+  },
+  {
+    "id": "c691e835-f5a5-4c30-a5fe-9959cba96da0",
+    "url": "https://novobarnco-pt.cloud/",
+    "verdict": "phish-cluster-1",
+    "user_feedback": "yes",
+    "timestamp": "2025-11-12T00:43:36.383798",
+    "detection_timestamp": "2025-11-12T00:42:39.809805"
+  }
+]

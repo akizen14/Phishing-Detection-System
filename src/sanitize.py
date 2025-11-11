@@ -12,6 +12,8 @@ def tags_only_sanitizer(html: str) -> bytes:
     for script in soup(["script", "style", "noscript"]):
         script.extract()
     tags = " ".join([tag.name for tag in soup.find_all()])
+    sanitized_dom_string = tags
+    print("DOM LENGTH:", len(sanitized_dom_string))
     return tags.encode("utf-8")
 
 
