@@ -1,0 +1,12 @@
+{
+  "label": "phish",
+  "prototype_index": 5,
+  "url": "https://system-reprog-relais.info/",
+  "size": 100,
+  "source": {
+    "url": "https://system-reprog-relais.info/",
+    "ts": 1761855055,
+    "size": 100,
+    "label": "phish"
+  }
+}

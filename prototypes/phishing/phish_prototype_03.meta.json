@@ -1,0 +1,12 @@
+{
+  "label": "phish",
+  "prototype_index": 3,
+  "url": "https://www.dropbox.com/paper/doc/jvWEpzwWWhmfzsYK9Y93h?auth_token=cd....",
+  "size": 1396,
+  "source": {
+    "url": "https://www.dropbox.com/paper/doc/jvWEpzwWWhmfzsYK9Y93h?auth_token=cd....",
+    "ts": 1761855053,
+    "size": 1396,
+    "label": "phish"
+  }
+}

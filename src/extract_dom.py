@@ -28,8 +28,12 @@ def extract_sanitized_dom(
     Returns:
         Sanitized DOM as bytes, or None if extraction fails
     """
+    import logging
+    logger = logging.getLogger("extract_dom")
+    
     html = render_page_source(url, wait_seconds=wait_seconds, headless=headless)
     if not html:
+        logger.warning(f"render_page_source returned None for {url}")
         return None
     
     if mode == SANITIZE_MODE_TAGS_ONLY:

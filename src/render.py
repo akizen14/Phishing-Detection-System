@@ -49,5 +49,9 @@ def render_page_source(
         driver.quit()
         return html
     except Exception as e:
-        print(f"[ERROR] Failed to render {url}: {e}")
+        import logging
+        logger = logging.getLogger("render")
+        error_msg = str(e)
+        logger.error(f"Failed to render {url}: {error_msg}")
+        print(f"[ERROR] Failed to render {url}: {error_msg}")
         return None

@@ -122,22 +122,68 @@ def detect(
     # Generate unique detection ID for feedback
     detection_id = str(uuid.uuid4())
     
-    # Build response with all cluster information
-    response_data = {
-        "url": url,
-        "classification": ncd_result["verdict"],
-        "source": ncd_result.get("source", "ncd"),
-        "confidence": "medium" if "phish" in ncd_result["verdict"] else "low",
-        "ncd_score_phish": ncd_result["ncd_score_phish_best"],
-        "ncd_score_legit": ncd_result["ncd_score_legit_best"]
-    }
+    # Use final verdict if available (from hybrid ML+NCD decision), otherwise use NCD verdict
+    final_classification = ncd_result.get("final_verdict", ncd_result["verdict"])
+    decision_source = ncd_result.get("decision_source", "ncd")
     
-    # Add cluster information if available
-    if "ncd_cluster_1" in ncd_result:
-        response_data["ncd_cluster_1"] = ncd_result["ncd_cluster_1"]
-        response_data["ncd_cluster_2"] = ncd_result["ncd_cluster_2"]
-        response_data["ncd_cluster_3"] = ncd_result["ncd_cluster_3"]
-        response_data["best_cluster"] = ncd_result["best_cluster"]
+    # Build response with prototype scores (preferred) or NCD scores (backward compatibility)
+    if "prototype_scores" in ncd_result:
+        # New prototype-based response
+        prototype_scores = ncd_result["prototype_scores"]
+        response_data = {
+            "url": url,
+            "classification": final_classification,
+            "source": decision_source,  # "ml", "prototype", or "ncd"
+            "confidence": ncd_result.get("confidence", "medium" if "phish" in final_classification else "low"),
+            "prototype_scores": {
+                "phish_min": prototype_scores["phish_min"],
+                "phish_avg": prototype_scores["phish_avg"],
+                "legit_min": prototype_scores["legit_min"],
+                "legit_avg": prototype_scores["legit_avg"]
+            },
+            "final_decision": ncd_result.get("final_decision", ""),
+            "dom_size": ncd_result.get("dom_size", 0),
+            "minimal_dom_adjustment_applied": ncd_result.get("minimal_dom_adjustment_applied", False),
+            "features": ncd_result.get("features", {})
+        }
+        # Backward compatibility: also include ncd_scores
+        response_data["ncd_scores"] = {
+            "phish_best": prototype_scores["phish_min"],
+            "phish_avg": prototype_scores["phish_avg"],
+            "legit_best": prototype_scores["legit_min"],
+            "legit_avg": prototype_scores["legit_avg"]
+        }
+    else:
+        # Legacy NCD-based response
+        response_data = {
+            "url": url,
+            "classification": final_classification,
+            "source": decision_source,  # "ml", "ncd", or "ncd-clustered"
+            "confidence": "medium" if "phish" in final_classification else "low",
+            "ncd_scores": {
+                "phish_best": ncd_result["ncd_score_phish_best"],
+                "phish_avg": ncd_result.get("ncd_score_phish_avg", ncd_result["ncd_score_phish_best"]),
+                "legit_best": ncd_result["ncd_score_legit_best"],
+                "legit_avg": ncd_result.get("ncd_score_legit_avg", ncd_result["ncd_score_legit_best"])
+            },
+            "features": ncd_result.get("features", {})
+        }
+    
+    # Add ML prediction if available
+    if "ml_prediction" in ncd_result:
+        ml_pred = ncd_result["ml_prediction"]
+        response_data["ml_prediction"] = {
+            "label": ml_pred.get("label", "legit"),
+            "probability": ml_pred.get("probability", 0.0),
+            "legit_probability": ml_pred.get("legit_probability", 1.0),
+            "confidence": ml_pred.get("confidence", "low")
+        }
+    
+    # Keep backward compatibility
+    response_data["ncd_score_phish"] = ncd_result["ncd_score_phish_best"]
+    response_data["ncd_score_legit"] = ncd_result["ncd_score_legit_best"]
+    
+    # Cluster information is used internally but not exposed to users
     
     # Add detection mode information
     if "detection_mode" in ncd_result:

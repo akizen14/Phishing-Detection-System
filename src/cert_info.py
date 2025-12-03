@@ -84,12 +84,41 @@ def get_certificate_metadata(url: str) -> Dict:
     except socket.timeout:
         logger.warning(f"SSL connection timeout for {url}")
         result["ssl_issuer"] = "Connection timeout"
+        result["ssl_enabled"] = False
         return result
     except ssl.SSLError as e:
-        logger.warning(f"SSL error for {url}: {e}")
-        result["ssl_issuer"] = f"SSL Error: {str(e)[:50]}"
+        error_str = str(e)
+        logger.warning(f"SSL error for {url}: {error_str}")
+        
+        # Provide user-friendly error messages based on error type
+        if "UNEXPECTED_EOF" in error_str or "EOF" in error_str:
+            result["ssl_issuer"] = "SSL connection interrupted"
+        elif "CERTIFICATE_VERIFY_FAILED" in error_str:
+            result["ssl_issuer"] = "Certificate verification failed"
+        elif "HANDSHAKE" in error_str:
+            result["ssl_issuer"] = "SSL handshake failed"
+        elif "TIMEOUT" in error_str:
+            result["ssl_issuer"] = "SSL connection timeout"
+        elif "CONNECTION" in error_str:
+            result["ssl_issuer"] = "SSL connection error"
+        else:
+            # Generic SSL error - show simplified message
+            result["ssl_issuer"] = "SSL error (certificate unavailable)"
+        
+        result["ssl_enabled"] = False
+        return result
+    except socket.gaierror:
+        logger.warning(f"DNS resolution failed for {url}")
+        result["ssl_issuer"] = "DNS resolution failed"
+        result["ssl_enabled"] = False
+        return result
+    except ConnectionRefusedError:
+        logger.warning(f"Connection refused for {url}")
+        result["ssl_issuer"] = "Connection refused"
+        result["ssl_enabled"] = False
         return result
     except Exception as e:
         logger.warning(f"Error getting certificate for {url}: {e}")
         result["ssl_issuer"] = "Certificate unavailable"
+        result["ssl_enabled"] = False
         return result

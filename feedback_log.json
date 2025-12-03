@@ -30,5 +30,45 @@
     "user_feedback": "yes",
     "timestamp": "2025-11-12T00:43:36.383798",
     "detection_timestamp": "2025-11-12T00:42:39.809805"
+  },
+  {
+    "id": "c6fcb129-da7a-4e0a-ad3a-8b6b797413b8",
+    "url": "https://meluno.cfd",
+    "verdict": "legit",
+    "user_feedback": "no",
+    "timestamp": "2025-11-12T01:22:30.294696",
+    "detection_timestamp": "2025-11-12T01:21:04.108326"
+  },
+  {
+    "id": "b3b48b8b-bb94-4e75-9616-806821cc4b52",
+    "url": "https://hub-poolether.net",
+    "verdict": "legit",
+    "user_feedback": "no",
+    "timestamp": "2025-11-12T12:07:58.693721",
+    "detection_timestamp": "2025-11-12T12:07:29.901080"
+  },
+  {
+    "id": "72af6e41-5961-4bc8-995b-9cc659032cc5",
+    "url": "https://chatgpt.com/",
+    "verdict": "phish-cluster-1",
+    "user_feedback": "no",
+    "timestamp": "2025-11-15T11:20:49.788092",
+    "detection_timestamp": "2025-11-15T11:20:35.632156"
+  },
+  {
+    "id": "21b71f30-1bf9-4d5d-9556-faa676a72872",
+    "url": "https://www.youtube.com/",
+    "verdict": "legit",
+    "user_feedback": "yes",
+    "timestamp": "2025-12-04T02:19:13.780303",
+    "detection_timestamp": "2025-12-04T02:14:37.101764"
+  },
+  {
+    "id": "21b71f30-1bf9-4d5d-9556-faa676a72872",
+    "url": "https://www.youtube.com/",
+    "verdict": "legit",
+    "user_feedback": "yes",
+    "timestamp": "2025-12-04T02:20:20.502524",
+    "detection_timestamp": "2025-12-04T02:14:37.101764"
   }
 ]
