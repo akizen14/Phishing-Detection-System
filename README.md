@@ -1,4 +1,4 @@
-# AI-Driven Phishing Detection System
+# Phishing Detection System
 
 A phishing detection system using **Normalized Compression Distance (NCD)** to compare DOM structures of websites. This approach identifies phishing sites by measuring structural similarity to known legitimate and phishing websites.
 
